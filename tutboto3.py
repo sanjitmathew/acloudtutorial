@@ -1,7 +1,8 @@
 #configure aws in and let instance be 'shotty'
 import boto3
+import sys
 
-if __name__=='__main__':    #doesn't work when imported into another module 
+if __name__=='__main__':    #doesn't work when imported into another module
     #creates a session on the aws instance shotty
     session=boto3.Session(profile_name='shotty')
 
@@ -12,3 +13,6 @@ if __name__=='__main__':    #doesn't work when imported into another module
 
     for i in ec2.instances.all():
         print i
+
+    #get commandline arguements
+    print sys.argv
