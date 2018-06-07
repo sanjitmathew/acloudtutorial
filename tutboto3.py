@@ -20,6 +20,40 @@ def filter_instances(project):
     return instances
 #decorators
 @click.group()
+def cli():
+    'manages aws '
+@cli.group('volumes')
+def volumes():
+    'commands for volumes'
+
+@volumes.command('list')
+@volumes.option('--project',default=None,help='only volumes for this project')
+
+def list_volumes(project):
+    'list volumes of ec2'
+    #add permissions to users in aws, manage policy
+    instances=filter_instances(project)
+    for i in instances():
+        for v in i.volumes.all():
+            print ','.join((v.id,v.state,str(v.size)+'GIB',v.ecrypted and 'encrypted'or'not encrypted'))
+
+@cli.group('snapshots')
+def snapshots():
+    'manages snapshots'
+
+@snapshots.command('list')
+@volumes.option('--project',default=None,help='only snapshots for this project')
+
+def list_volumes(project):
+    'list snapshots of ec2'
+    #add permissions to users in aws, manage policy
+    instances=filter_instances(project)
+    for i in instances():
+        for v in i.volumes.all():
+            for s in v.snapshots.all():
+                print ','.join((s.id,s.state,s.progress,s.start_time.strftime("%c")))
+
+@cli.group('instances')
 def instances():
     'commands for instances'
 @instances.command('list')
@@ -29,7 +63,7 @@ def list_instances(project):
     'list instances of ec2'
     #add permissions to users in aws, manage policy
     instances=filter_instances(project)
-    for i in ec2.instances.all():
+    for i in instances:
         tags={t['Key']:t['Value'] for t in i.tags or []}
         print i
         print i.id
@@ -66,7 +100,8 @@ def start_instances(project):
     return
 
 if __name__=='__main__':    #doesn't work when imported into another module
-    instances()
+    cli()
 #run this code
-#python tuboto3.py list --project=<NAME>
-#python tuboto3.py stop --project=<NAME>
+#python tuboto3.py instances list --project=<NAME>
+#python tuboto3.py instances stop --project=<NAME>
+#python tuboto3.py volumes list --project=<NAME>
