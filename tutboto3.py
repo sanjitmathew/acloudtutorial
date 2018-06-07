@@ -1,5 +1,6 @@
 #configure aws in and let instance be 'shotty'
 import boto3
+import botocore     #handles errors
 import sys
 import click
 
@@ -83,7 +84,11 @@ def stop_instances(project):
     for i in instances:
         #stopping all instances
         print 'stopping instance'+str(i.id)
-        i.stop()
+        try:
+            i.stop()
+        except botocore.exceptions.ClientError as e:
+            print e
+            continue
     return
 
 @instances.command('start')
