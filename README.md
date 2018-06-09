@@ -12,7 +12,7 @@ In CMD:
               gets status of repository
   'git add "FILE1" "FILE2"'
               adds the files to git
-  'git commit -m "MESSAGE"'
+  'git commit -am "MESSAGE"'
               commits the changes to github
   'git push'
             pushes the committed changes from local repository
