@@ -1,10 +1,10 @@
 # acloudtutorial
 project to learn acloud guru site for aws
 
-##github
+## github
 create a folder in computer
 In CMD:
-  'git clone "URLFROMREPO"'
+  ' git clone "URLFROMREPO"'
                         clones the repo to out computer
   'git remote -v'
                 gets push and fetch information
